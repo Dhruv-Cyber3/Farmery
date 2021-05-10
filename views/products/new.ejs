@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Product</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Farm Grocery</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNavAltMarkup"
+        >
+          <div class="navbar-nav">
+            <a class="nav-link" href="/farms">Home</a>
+            <% if(!currentUser){ %>
+            <a class="nav-link" href="/login">Login</a>
+            <a class="nav-link" href="/register">Register</a>
+            <%} else{ %>
+            <a class="nav-link" href="/logout">Logout</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <div class="row justify-content-center">
+        <div class="col-5">
+          <h1><%=farm.name%></h1>
+          <h2>Add a Product</h2>
+          <form action="/farms/<%=farm._id%>/products" method="POST">
+            <label class="form-label" for="name">Product Name</label>
+            <input
+              class="form-control"
+              type="text"
+              name="name"
+              id="name"
+              placeholder="product name"
+            />
+            <label class="form-label" for="price">Price (Unit)</label>
+            <input
+              class="form-control"
+              type="number"
+              id="price"
+              name="price"
+              placeholder="price"
+            />
+            <label class="form-label" for="category">Select Category</label>
+            <select class="form-select" name="category" id="category">
+              <% for(let category of categories){ %>
+              <option value="<%=category%>"><%=category%></option>
+              <% } %>
+            </select>
+            <button class="btn btn-success mb-3 mt-3">Submit</button>
+          </form>
+          <a href="/farms/<%=farm._id%>">Back To Farm</a>
+        </div>
+      </div>
+    </main>
+    <!--scripts-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

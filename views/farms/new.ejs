@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Farm</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Farm Grocery</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNavAltMarkup"
+        >
+          <div class="navbar-nav">
+            <a class="nav-link" href="/farms">Home</a>
+            <% if(!currentUser){ %>
+            <a href="/login" class="nav-link">Login</a>
+            <a href="/register" class="nav-link">Register</a>
+            <% }else{ %>
+            <a href="/logout" class="nav-link">Logout</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-6">
+          <section class="card">
+            <h1 class="card-header">Add A Farm</h1>
+            <div class="card-body">
+              <form action="/farms" method="POST">
+                <div>
+                  <label class="form-label" for="name">Farm Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="farm name"
+                    class="form-control mb-3"
+                  />
+                </div>
+                <div>
+                  <label class="form-label" for="city">City</label>
+                  <input
+                    class="form-control mb-3"
+                    type="text"
+                    name="city"
+                    id="city"
+                    placeholder="farm city"
+                  />
+                </div>
+                <div>
+                  <label class="form-label" for="email">Email</label>
+                  <input
+                    class="form-control mb-3"
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="email"
+                  />
+                </div>
+
+                <button class="btn btn-success">Submit</button>
+              </form>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!--scripts-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

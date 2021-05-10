@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= product.name %></title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Farm Grocery</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNavAltMarkup"
+        >
+          <div class="navbar-nav">
+            <a class="nav-link" href="/farms">Home</a>
+            <% if(!currentUser){ %>
+            <a class="nav-link" href="/login">Login</a>
+            <a class="nav-link" href="/register">Register</a>
+            <%} else{ %>
+            <a class="nav-link" href="/logout">Logout</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <div class="row justify-content-center">
+        <div class="col-6">
+          <!--flash-->
+          <% if(success &&success.length){ %>
+          <div
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            <%=success %>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
+          <% } %> <% if(error &&error.length){ %>
+          <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <%=error %>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
+          <% } %>
+          <!--flash-->
+          <section class="card">
+            <h1 class="card-header"><%= product.name %></h1>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Price: $<%= product.price%></li>
+                <li class="list-group-item">
+                  Category:
+                  <a href="/products?category=<%= product.category%>"
+                    ><%= product.category%></a
+                  >
+                </li>
+                <li class="list-group-item">
+                  Farm:
+                  <a href="/farms/<%=product.farm._id%>"
+                    ><%= product.farm.name%></a
+                  >
+                </li>
+              </ul>
+              <form
+                action="/products/<%=product._id%>?_method=DELETE"
+                method="POST"
+              >
+                <button class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </section>
+          <a href="/farms/<%= farm._id%>">Back to Farm</a>
+          <a href="/products/<%=product._id%>/edit" class="btn btn-info ms-4"
+            >Edit Product</a
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <a href="/products" type="button" class="btn btn-outline-dark"
+            >All Products</a
+          >
+        </div>
+      </div>
+    </main>
+    <!--scripts-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
