@@ -66,7 +66,6 @@ app.get("/farms/new", (req, res) => {
 });
 
 app.post("/farms", async (req, res) => {
-  console.log(req.body);
   const farm = new Farm(req.body);
   await farm.save();
   req.flash("success", "Farm created!");
