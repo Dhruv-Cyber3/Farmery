@@ -17,9 +17,9 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Farm Grocery</a>
+        <a class="navbar-brand" href="#">Farmery</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -63,6 +63,7 @@
                     id="name"
                     placeholder="farm name"
                     class="form-control mb-3"
+                    required
                   />
                 </div>
                 <div>
@@ -73,6 +74,7 @@
                     name="city"
                     id="city"
                     placeholder="farm city"
+                    required
                   />
                 </div>
                 <div>
@@ -83,10 +85,11 @@
                     name="email"
                     id="email"
                     placeholder="email"
+                    required
                   />
                 </div>
-
                 <button class="btn btn-success">Submit</button>
+                <a href="/farms" class="ms-4 link-danger">Cancel</a>
               </form>
             </div>
           </section>
