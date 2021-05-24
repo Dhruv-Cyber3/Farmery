@@ -1,0 +1,49 @@
+.fixed {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  height: 100%;
+  width: 100%;
+  color: #eeeeee;
+  text-align: center;
+  display: table;
+}
+
+.fixed h2 {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.scroll {
+  background-color: #ffe0f6;
+  padding: 10px 70px;
+  color: #666666;
+}
+
+.one {
+  background-image: url("../media/cover3.jpeg");
+}
+
+.two {
+  background-image: url("../media/cover4.jpeg");
+}
+
+.three {
+  background-image: url("../media/cover.jpeg");
+}
+
+button {
+  background-color: #4caf50;
+  /* Green */
+  border-radius: 20px;
+  border: white;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}

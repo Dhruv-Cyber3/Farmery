@@ -11,12 +11,14 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
+const { isLoggedin, isAuthor, isAuthorProduct } = require("./middleware");
 
 const sessionOptions = {
   secret: "thisIsNotAGoodSecret",
   resave: false,
   saveUninitialized: true,
 };
+app.use(express.static(__dirname + "/public"));
 app.use(session(sessionOptions));
 app.use(flash());
 app.use(passport.initialize());
@@ -54,6 +56,14 @@ app.use((req, res, next) => {
   next();
 });
 
+//Client side routes
+//START
+app.get("/home", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+//END
+
 // FARM ROUTES
 
 app.get("/farms", async (req, res) => {
@@ -61,41 +71,46 @@ app.get("/farms", async (req, res) => {
   res.render("farms/index", { farms });
 });
 
-app.get("/farms/new", (req, res) => {
+app.get("/farms/new", isLoggedin, (req, res) => {
   res.render("farms/new");
 });
 
-app.post("/farms", async (req, res) => {
-  const farm = new Farm(req.body);
+app.post("/farms", isLoggedin, async (req, res) => {
+  const { name, city, email } = req.body;
+  const farm = new Farm({ name, city, email });
+  farm.author = req.user._id;
   await farm.save();
   req.flash("success", "Farm created!");
   res.redirect("/farms");
 });
 
 app.get("/farms/:id", async (req, res) => {
-  const farm = await Farm.findById(req.params.id).populate("products");
+  const farm = await Farm.findById(req.params.id)
+    .populate("author")
+    .populate("products");
   res.render("farms/show", { farm });
 });
 
-app.delete("/farms/:id", async (req, res) => {
+app.delete("/farms/:id", isLoggedin, isAuthor, async (req, res) => {
   const farm = await Farm.findByIdAndDelete(req.params.id);
   req.flash("success", "Deleted Farm!");
   res.redirect("/farms");
 });
 
-app.get("/farms/:id/products/new", async (req, res) => {
+app.get("/farms/:id/products/new", isLoggedin, isAuthor, async (req, res) => {
   const { id } = req.params;
   const farm = await Farm.findById(id);
   res.render("products/new", { categories, farm });
 });
 
-app.post("/farms/:id/products", async (req, res) => {
+app.post("/farms/:id/products", isLoggedin, isAuthor, async (req, res) => {
   const { id } = req.params;
   const farm = await Farm.findById(id);
   const { name, price, category } = req.body;
   const product = new Product({ name, price, category });
   farm.products.push(product);
   product.farm = farm;
+  product.author = req.user._id;
   await farm.save();
   await product.save();
   req.flash("success", "Product added!");
@@ -128,18 +143,19 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:id", async (req, res) => {
   const { id } = req.params;
+  // const product = await (await Product.findById(id)).populate("farm", "name");
   const product = await Product.findById(id).populate("farm", "name");
   const farm = product.farm;
   res.render("products/show", { product, farm });
 });
 
-app.get("/products/:id/edit", async (req, res) => {
+app.get("/products/:id/edit", isLoggedin, isAuthorProduct, async (req, res) => {
   const { id } = req.params;
   const product = await Product.findById(id);
   res.render("products/edit", { product, categories });
 });
 
-app.put("/products/:id", async (req, res) => {
+app.put("/products/:id", isLoggedin, isAuthorProduct, async (req, res) => {
   const { id } = req.params;
   const product = await Product.findByIdAndUpdate(id, req.body, {
     runValidators: true,
@@ -149,7 +165,7 @@ app.put("/products/:id", async (req, res) => {
   res.redirect(`/products/${product._id}`);
 });
 
-app.delete("/products/:id", async (req, res) => {
+app.delete("/products/:id", isLoggedin, isAuthorProduct, async (req, res) => {
   const { id } = req.params;
   const deletedProduct = await Product.findByIdAndDelete(id);
   req.flash("success", "Product deleted!");
@@ -188,7 +204,9 @@ app.post(
   }),
   (req, res) => {
     req.flash("success", "Welcome Back!");
-    res.redirect("/farms");
+    const redirectUrl = req.session.returnTo || "/farms";
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
   }
 );
 

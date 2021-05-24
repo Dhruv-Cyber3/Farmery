@@ -1,0 +1,36 @@
+@keyframes fadeInCard {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.card {
+  margin: 5%;
+  border-bottom: 4px solid teal;
+  animation: fadeInCard ease 1s;
+}
+
+.card img {
+  object-fit: cover;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qty {
+  padding: 10px;
+}
