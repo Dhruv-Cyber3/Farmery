@@ -2,6 +2,11 @@
 This is a project for J component for the course Internet and Web programming.
 This is a simple web app for trading fruits, vegetables and other organic products directly from farms.
 
+#### ***Team Members***
+* Dhruv Choudhary 
+* Riya Raj
+* Nandini Agarwal
+
 ## Built with
 
 * HTML
@@ -29,5 +34,26 @@ After installing these, clone this repository, go to the folder. Open terminal o
 
 * Clone the repo
 ```
-
+git clone https://github.com/Dhruv-Cyber3/Farmery.git
 ```
+
+* Install npm packages
+```
+npm install
+```
+
+To run this project type in you terminal or command prompt
+```
+nodemon index.js
+```
+and hit enter
+
+You should see in your terminal
+```
+Listening on PORT 3000
+MongoDB connection Open
+```
+
+* Open your browser and go to: `localhost:3000/home`
+
+You should be able to see home page of the web app.
