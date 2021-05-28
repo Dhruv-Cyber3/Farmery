@@ -11,7 +11,14 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
-const { isLoggedin, isAuthor, isAuthorProduct } = require("./middleware");
+
+const {
+  isLoggedin,
+  isAuthor,
+  isAuthorProduct,
+  isLoggedinCustomer,
+} = require("./middleware");
+const Feedback = require("./models/feedback");
 
 const sessionOptions = {
   secret: "thisIsNotAGoodSecret",
@@ -59,7 +66,153 @@ app.use((req, res, next) => {
 //Client side routes
 //START
 app.get("/home", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  res.render("customer/index");
+});
+
+app.get("/aboutUs", (req, res) => {
+  res.render("customer/About Farmery");
+});
+
+app.get("/contact", isLoggedinCustomer, (req, res) => {
+  res.render("customer/contactus");
+});
+
+app.post("/contact", isLoggedinCustomer, async (req, res) => {
+  const { cname, cemail, feedback } = req.body;
+  const review = new Feedback({ cname, cemail, content: feedback });
+  console.log(review);
+  await review
+    .save()
+    .then(() => {
+      req.flash("success", "Review successfully saved");
+      res.redirect("/contact");
+    })
+    .catch(() => {
+      req.flash("error", "Review could not be saved. Try again later!");
+      res.redirect("/contact");
+    });
+});
+
+app.get("/dashboard", isLoggedinCustomer, async (req, res) => {
+  const farms = await Farm.find();
+  res.render("users/dashboard", { farms });
+});
+
+app.get("/dashboard/edit", isLoggedinCustomer, async (req, res) => {
+  const id = req.user._id;
+  const user = await User.findById(id);
+  res.render("users/edit", { user });
+});
+
+app.put("/dashboard/edit", isLoggedinCustomer, async (req, res) => {
+  const { firstName, lastName, email, phone } = req.body;
+  const id = req.user._id;
+  const foundUser = await User.findByIdAndUpdate(id, {
+    firstName,
+    lastName,
+    email,
+    phone,
+  })
+    .then(() => {
+      req.flash("success", "Details updated successfully!");
+      res.redirect("/dashboard");
+    })
+    .catch(() => {
+      req.flash("error", "Error in updating");
+      res.redirect("/dashboard/edit");
+    });
+});
+
+app.post("/addtocart/:id", async (req, res) => {
+  const userId = req.user._id;
+  const productId = req.params.id;
+  const user = await User.findById({ _id: userId });
+  user.cart.push(productId);
+  await user
+    .save()
+    .then(() => {
+      req.flash("success", "Added to cart");
+      res.redirect("/products");
+    })
+    .catch(() => {
+      req.flash("error", "Error !");
+      res.redirect("/products");
+    });
+});
+
+app.get("/cart", isLoggedin, async (req, res) => {
+  const id = req.user._id;
+  const user = await User.findById(id).populate("cart");
+  res.render("users/cart", { user });
+});
+
+app.delete("/cart/:id", async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user._id;
+  const user = await User.findById({ _id: userId });
+  console.log(user);
+  for (let i = 0; i < user.cart.length; i++) {
+    if (user.cart[i].equals(id)) {
+      user.cart.splice(i, 1);
+    }
+  }
+  console.log(user);
+  await User.findByIdAndUpdate(userId, user)
+    .then(() => {
+      req.flash("success", "Item removed from cart");
+      res.redirect("/cart");
+    })
+    .catch(() => {
+      req.flash("error", "Error!!");
+      res.redirect("/cart");
+    });
+});
+
+app.get("/loginCustomer", (req, res) => {
+  res.render("customer/loginCustomer");
+});
+
+app.get("/loginCustomer", (req, res) => {
+  res.render("customer/loginCustomer");
+});
+
+app.post(
+  "/loginCustomer",
+  passport.authenticate("local", {
+    failureFlash: true,
+    failureRedirect: "/loginCustomer",
+  }),
+  (req, res) => {
+    req.flash("success", "Welcome Back!");
+    const redirectUrl = req.session.returnTo || "/home";
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
+  }
+);
+
+app.get("/registerCustomer", (req, res) => {
+  res.render("customer/registerCustomer");
+});
+
+app.post("/registerCustomer", async (req, res) => {
+  try {
+    const { firstName, lastName, email, phone, username, password } = req.body;
+    const user = new User({ firstName, lastName, email, phone, username });
+    const registeredUser = await User.register(user, password);
+    req.login(registeredUser, (err) => {
+      req.flash("success", "Welcome to Farm Grocery");
+      res.redirect("/home");
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", e.message);
+    res.redirect("/registerCustomer");
+  }
+});
+
+app.get("/reviews", async (req, res) => {
+  const reviews = await Feedback.find();
+  res.render("users/reviews", { reviews });
 });
 
 //END
@@ -213,7 +366,7 @@ app.post(
 app.get("/logout", (req, res) => {
   req.logout();
   req.flash("success", "See you soon!");
-  res.redirect("/farms");
+  res.redirect("/home");
 });
 
 //Listen

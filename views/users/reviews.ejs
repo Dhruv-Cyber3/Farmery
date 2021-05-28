@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Farms</title>
+    <title>Reviews</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -20,35 +20,17 @@
     <%- include('../partials/navbar') %>
 
     <div class="container">
+      <h1 class="display-1 text-center mb-3">Reviews</h1>
       <div class="row justify-content-center">
-        <div class="col-6">
+        <% for(let review of reviews) {%>
+        <div class="col-3 text-center">
           <%- include('../partials/flash') %>
-
-          <h1 class="text-center">All Farms</h1>
-          <% for(let farm of farms) { %>
-          <div class="card mb-3 text-center">
-            <h5 class="card-header"><%=farm.name %></h5>
-            <div class="card-body">
-              <!-- <h5 class="card-title">Click button to see <%=farm.name %></h5> -->
-              <a href="/farms/<%=farm._id%>" type="button" class="btn btn-dark">
-                Visit
-                <span class="material-icons">open_in_new</span>
-              </a>
-            </div>
-          </div>
-          <% }%> <% if(currentUser) {%>
-          <a href="/farms/new" type="button" class="btn btn-success"
-            >Add Farm</a
-          >
-          <% } %>
+          <section class="card rounded shadow">
+            <h1 class="bg-light"><%=review.cname %></h1>
+            <div class="card-body"><%= review.content %></div>
+          </section>
         </div>
-      </div>
-      <div class="row justify-content-start">
-        <div class="col-6">
-          <a href="/products" type="button" class="btn btn-outline-dark"
-            >All Products</a
-          >
-        </div>
+        <% } %>
       </div>
     </div>
     <!--scripts-->

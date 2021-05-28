@@ -41,33 +41,13 @@
 
   <body>
     <div class="wrapper">
-      <nav>
-        <ul>
-          <li><a href="index.html">HOME</a></li>
-          <li><a href="About Farmery.html">ABOUT US</a></li>
-          <li><a href="#">PRODUCTS</a></li>
-          <li style="font-family: pacifico; font-size: 40px">
-            <a href="/home">Farmery</a>
-          </li>
-          <li><a href="contactus.html">CONTACT US</a></li>
-          <li>
-            <a href="login.html">
-              Customer
-              <span class="material-icons">account_circle</span>
-            </a>
-          </li>
-          <li>
-            <a href="/login">
-              Seller <span class="material-icons">person</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <%- include('../partials/customerNavbar') %> <%-
+      include('../partials/flash') %>
 
       <div class="container">
         <section class="row justify-content-end">
           <div class="col-lg-5 col-md-5 col-sm-8">
-            <form action="#">
+            <form class="mb-5" action="/contact" method="POST">
               <label class="form-label mb-3"
                 >Name
                 <input type="text" class="form-control" name="cname" />
@@ -86,6 +66,7 @@
                   placeholder="How we can help you ?"
                 ></textarea>
               </label>
+              <button class="btn btn-info">Submit</button>
             </form>
           </div>
         </section>

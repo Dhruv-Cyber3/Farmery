@@ -1,0 +1,43 @@
+<nav>
+  <ul>
+    <li>
+      <a href="/home">HOME <span class="material-icons">home</span></a>
+    </li>
+    <li>
+      <a href="/aboutUs">ABOUT US <span class="material-icons">info</span></a>
+    </li>
+    <li>
+      <a href="/products"
+        >PRODUCTS <span class="material-icons">inventory_2</span></a
+      >
+    </li>
+    <li style="font-family: pacifico; font-size: 40px">
+      <a href="/home">Farmery</a>
+    </li>
+    <li>
+      <a href="/contact"
+        >FEEDBACK <span class="material-icons">rate_review</span></a
+      >
+    </li>
+    <% if(!currentUser) {%>
+    <li>
+      <a href="/loginCustomer">
+        Customer
+        <span class="material-icons">account_circle</span>
+      </a>
+    </li>
+    <li>
+      <a href="/farms"> Seller <span class="material-icons">person</span> </a>
+    </li>
+    <% } else {%>
+    <li>
+      <a href="/dashboard"
+        >Dashboard<span class="material-icons">space_dashboard</span></a
+      >
+    </li>
+    <li>
+      <a href="/logout">Logout <span class="material-icons">logout</span></a>
+    </li>
+    <% } %>
+  </ul>
+</nav>

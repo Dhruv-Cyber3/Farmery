@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Log in!</title>
+    <title>Sign UP!</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       rel="stylesheet"
@@ -46,39 +46,30 @@
 
   <body>
     <div class="wrapper">
-      <nav>
-        <ul>
-          <li><a href="index.html">HOME</a></li>
-          <li><a href="About Farmery.html">ABOUT US</a></li>
-          <li><a href="#">PRODUCTS</a></li>
-          <li style="font-family: pacifico; font-size: 40px">
-            <a href="/home">Farmery</a>
-          </li>
-          <li><a href="contactus.html">CONTACT US</a></li>
-          <li>
-            <a href="login.html">
-              Customer
-              <span class="material-icons">account_circle</span>
-            </a>
-          </li>
-          <li>
-            <a href="/login">
-              Seller <span class="material-icons">person</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <%- include('../partials/customerNavbar') %>
 
       <section class="container">
         <div class="row justify-content-end">
-          <div class="col-4">
-            <h1 class="display-1">Register</h1>
+          <%- include('../partials/flash') %>
+
+          <div class="col-4 mb-5">
+            <h1 class="display-2">Register</h1>
             <br />
-            <form action="#">
+            <form action="/registerCustomer" method="POST">
               <label for="fname" class="form-label">First Name </label>
-              <input type="text" name="fname" class="form-control" id="fname" />
+              <input
+                type="text"
+                name="firstName"
+                class="form-control"
+                id="fname"
+              />
               <label for="lname" class="form-label">Last Name</label>
-              <input type="text" name="lname" id="lname" class="form-control" />
+              <input
+                type="text"
+                name="lastName"
+                id="lname"
+                class="form-control"
+              />
               <label for="email" class="form-label">Email </label>
               <input
                 type="email"
@@ -86,9 +77,16 @@
                 class="form-control"
                 id="email"
               />
-              <label for="passwd" class="form-label">Password</label>
+              <label for="username" class="form-label">Username</label>
               <input
                 type="text"
+                name="username"
+                id="username"
+                class="form-control"
+              />
+              <label for="passwd" class="form-label">Password</label>
+              <input
+                type="password"
                 name="password"
                 id="passwd"
                 class="form-control"
@@ -102,7 +100,7 @@
               />
               <br />
               <button class="btn btn-info">Register</button>
-              <a class="btn btn-dark" href="login.html"
+              <a class="btn btn-dark" href="/loginCustomer"
                 >Already have an account?</a
               >
             </form>

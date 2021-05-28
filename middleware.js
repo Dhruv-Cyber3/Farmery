@@ -30,3 +30,12 @@ module.exports.isAuthorProduct = async (req, res, next) => {
   }
   next();
 };
+
+module.exports.isLoggedinCustomer = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    req.session.returnTo = req.originalUrl;
+    req.flash("error", "You must be signed in!");
+    return res.redirect("/loginCustomer");
+  }
+  next();
+};

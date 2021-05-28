@@ -46,52 +46,33 @@
 
   <body>
     <div class="wrapper">
-      <nav>
-        <ul>
-          <li><a href="index.html">HOME</a></li>
-          <li><a href="About Farmery.html">ABOUT US</a></li>
-          <li><a href="#">PRODUCTS</a></li>
-          <li style="font-family: pacifico; font-size: 40px">
-            <a href="/home">Farmery</a>
-          </li>
-          <li><a href="contactus.html">CONTACT US</a></li>
-          <li>
-            <a href="login.html">
-              Customer
-              <span class="material-icons">account_circle</span>
-            </a>
-          </li>
-          <li>
-            <a href="/login">
-              Seller <span class="material-icons">person</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <%- include('../partials/customerNavbar') %>
 
       <section class="container">
         <div class="row justify-content-center">
+          <%- include('../partials/flash') %>
+
           <div class="col-4">
             <h1 class="display-1">Login</h1>
             <br />
-            <form action="#">
-              <label for="email" class="form-label">Enter email </label>
+            <form action="/loginCustomer" method="POST">
+              <label for="username" class="form-label">Username </label>
               <input
-                type="email"
-                name="email"
+                type="text"
+                name="username"
                 class="form-control"
-                id="email"
+                id="username"
               />
               <label for="passwd" class="form-label">Password</label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 id="passwd"
                 class="form-control"
               />
               <br />
               <button class="btn btn-success">Login</button>
-              <a href="register.html" class="btn btn-primary">
+              <a href="/registerCustomer" class="btn btn-primary">
                 Don't have account? Signup
               </a>
             </form>
