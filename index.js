@@ -80,7 +80,6 @@ app.get("/contact", isLoggedinCustomer, (req, res) => {
 app.post("/contact", isLoggedinCustomer, async (req, res) => {
   const { cname, cemail, feedback } = req.body;
   const review = new Feedback({ cname, cemail, content: feedback });
-  console.log(review);
   await review
     .save()
     .then(() => {
@@ -150,7 +149,6 @@ app.delete("/cart/:id", async (req, res) => {
   const { id } = req.params;
   const userId = req.user._id;
   const user = await User.findById({ _id: userId });
-  console.log(user);
   for (let i = 0; i < user.cart.length; i++) {
     if (user.cart[i].equals(id)) {
       user.cart.splice(i, 1);
@@ -204,7 +202,6 @@ app.post("/registerCustomer", async (req, res) => {
       res.redirect("/home");
     });
   } catch (e) {
-    console.log(e);
     req.flash("error", e.message);
     res.redirect("/registerCustomer");
   }
