@@ -154,7 +154,6 @@ app.delete("/cart/:id", async (req, res) => {
       user.cart.splice(i, 1);
     }
   }
-  console.log(user);
   await User.findByIdAndUpdate(userId, user)
     .then(() => {
       req.flash("success", "Item removed from cart");
@@ -322,6 +321,15 @@ app.delete("/products/:id", isLoggedin, isAuthorProduct, async (req, res) => {
   res.redirect(`/farms/${deletedProduct.farm}`);
 });
 
+app.get("/search", async (req, res) => {
+  const { search } = req.query;
+  const items = await Product.find({ name: search }).populate("farm");
+  if (items.length === 0) {
+    req.flash("error", "Item not found!!");
+    return res.redirect("/products");
+  }
+  res.render("products/search", { items });
+});
 //USER ROUTES
 app.get("/register", (req, res) => {
   res.render("users/register");

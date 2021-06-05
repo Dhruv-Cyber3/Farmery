@@ -22,7 +22,7 @@
     <main class="container">
       <div class="row justify-content-center">
         <%- include("../partials/flash") %>
-        <div class="col-6">
+        <div class="mt-5 col-6">
           <section class="card text-center">
             <h1 class="card-header"><%= category%> Products!</h1>
             <div class="card-body">
@@ -42,6 +42,23 @@
             </div>
             <!-- <a href="/products/new" class="btn btn-success">New Product</a> -->
           </section>
+        </div>
+
+        <div class="mt-5 col-4">
+          <form
+            action="/search"
+            method="GET"
+            class="p-3 border-top border-bottom border-2 border-dark"
+          >
+            <input
+              type="text"
+              name="search"
+              class="form-control mb-3"
+              placeholder="Enter product name"
+            />
+            <button class="btn btn-outline-success">Search Products</button>
+          </form>
+          <div class="card"><%= %></div>
         </div>
       </div>
       <div class="row justify-content-start">
